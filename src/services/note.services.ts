@@ -1,25 +1,25 @@
 import NoteModel from "../models/note.model";
 
 class NoteService {
-    async create(noteData: { name: string; content: string; description: string }) {
-        return await NoteModel.create(noteData); // ✅ Ensure this method exists
-    }
+  static async fetchAll(query: object) {
+    return await NoteModel.find(query);
+  }
 
-    async fetchOne(filter: object) {
-        return await NoteModel.findOne(filter);
-    }    
+  static async fetchOne(query: object) {
+    return await NoteModel.findOne(query);
+  }
 
-    async fetchAll() {
-        return await NoteModel.find();
-    }
+  static async create(data: object) {
+    return await NoteModel.create(data);
+  }
 
-    async update(noteId: string, updateData: object) {
-        return await NoteModel.findByIdAndUpdate(noteId, updateData, { new: true });
-    }
+  static async update(id: string, data: object, userId: string) {
+    return await NoteModel.findByIdAndUpdate({ _id: id, user: userId }, data, { new: true });
+  }
 
-    async delete(noteId: string) {
-        return await NoteModel.findByIdAndDelete(noteId);
-    }
+  static async delete(id: string, userId: string) {
+    return await NoteModel.findByIdAndDelete({ _id: id, user: userId });
+  }
 }
 
-export default new NoteService();
+export default NoteService;
